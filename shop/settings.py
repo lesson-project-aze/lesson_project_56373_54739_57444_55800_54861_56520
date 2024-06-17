@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'imagekit',
     'django_filters',
-    'customer'
+    'customer',
+    'locale'
 ]
 
 MIDDLEWARE = [
