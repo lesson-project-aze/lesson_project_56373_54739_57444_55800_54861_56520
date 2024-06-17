@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-
+    'ecommerce',
     # EXTERNALS
     'ckeditor',
     'django_cleanup.apps.CleanupConfig',
