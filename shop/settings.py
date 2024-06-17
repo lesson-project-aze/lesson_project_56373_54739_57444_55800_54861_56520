@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'imagekit',
     'django_filters',
     'customer',
+    'templates',
+    'static',
     'locale'
 ]
 
