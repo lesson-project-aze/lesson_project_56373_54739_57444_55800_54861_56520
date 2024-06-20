@@ -15,6 +15,7 @@ from django.views.generic import DetailView, ListView
 # Create your views here.
 
 def home(request):
+    print(Product.objects.filter(featured=True).order_by('?')[:8])
     context = {
         'slide_campaigns': Campaign.objects.filter(slide=True),
         'campaigns': Campaign.objects.exclude(slide=True),

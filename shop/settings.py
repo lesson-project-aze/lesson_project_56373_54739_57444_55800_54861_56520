@@ -151,17 +151,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 LOGIN_URL = 'customer:login'
 
@@ -189,3 +182,27 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS') == 'Tr
 SESSION_COOKIE_SECURE = getenv('SESSION_COOKIE_SECURE') == 'True'
 CSRF_COOKIE_SECURE = getenv('CSRF_COOKIE_SECURE') == 'True'
 SECURE_HSTS_PRELOAD = getenv('SECURE_HSTS_PRELOAD') == 'True'
+
+
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# AWS_S3_ACCESS_KEY_ID = getenv('AWS_S3_ACCESS_KEY_ID')
+# AWS_S3_SECRET_ACCESS_KEY = getenv('AWS_S3_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME= getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_DEFAULT_ACL = getenv('AWS_DEFAULT_ACL')
+# AWS_QUERYSTRING_AUTH = getenv('AWS_QUERYSTRING_AUTH') == 'True'
+# AWS_S3_REGION_NAME = getenv('AWS_S3_REGION_NAME')
+
+# AWS_LOCATION = 'media'
+
+# AWS_S3_CUSTOM_DOMAIN = '{}.s3.{}.amazonaws.com'.format(
+#     AWS_STORAGE_BUCKET_NAME,
+#     AWS_S3_REGION_NAME
+# )
+
+
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# ]

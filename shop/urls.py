@@ -22,6 +22,8 @@ from django.shortcuts import render
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import StaticViewSitemap, ProductSitemap
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -33,8 +35,13 @@ urlpatterns = [
     path('robots.txt/', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
      name='django.contrib.sitemaps.views.sitemap')
-] + i18n_patterns(
+]
+
+urlpatterns += i18n_patterns(
     path(getenv('ADMIN_URL'), admin.site.urls),
     path('', include('ecommerce.urls')),
     path('customer/', include('customer.urls')),
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
