@@ -1,10 +1,12 @@
 ## Students
-* Javadagha Salmanov
-* Adil Valizada
-* Gulandam Saidbayli
-* Cafar Abbasov
-* Nuran Amirkhanov
-* Chingiz Gurbanov
+
+- Javadagha Salmanov
+- Adil Valizada
+- Gulandam Saidbayli
+- Cafar Abbasov
+- Nuran Amirkhanov
+- Chingiz Gurbanov
+- Eljan Rustamov
 
 # Setup Documentation
 
