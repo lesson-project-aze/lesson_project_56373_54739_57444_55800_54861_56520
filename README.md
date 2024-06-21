@@ -10,7 +10,7 @@
 
 # Setup Documentation
 
-This documentation outlines the setup process for the Django project configured in [`settings.py`](2%7D%5D"d:\Users\Ujer\Desktop\labs\lesson-project-ecommerce\ecommerce-shop-site-lesson-project\shop\settings.py"). Follow these steps to configure your environment correctly.
+This documentation outlines the setup process for the Django project configured in [`settings.py`](2%7D%5D"shop-site-lesson-project\shop\settings.py"). Follow these steps to configure your environment correctly.
 
 ## Prerequisites
 
@@ -70,6 +70,40 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Docker Configuration
+
+This project is configured to run with Docker, simplifying the setup and deployment processes. Here's how to get started with Docker:
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Running the Project with Docker
+
+1. **Build the Docker Images**
+
+   Navigate to the project root directory and run the following command to build the Docker images specified in the `docker-compose.yml` file:
+
+   ```bash
+   docker-compose build
+   ```
+2. **Start the Containers**
+
+    After building the images, start the containers with:
+    ```bash
+    docker-compose up
+    ```
+    This command starts all the services defined in docker-compose.yml. The backend service will be accessible at http://localhost:8000, and the database service uses a volume shop_db_data to persist data.
+
+3. **Environment Variables**
+
+      The Docker configuration uses an .env file to set environment variables for the containers. Ensure you have an .env file at the root of your project with the necessary variables. Refer to .env.example for an example configuration.
+
+      Database Initialization
+
+      With the containers running, you may need to apply database migrations. You can do this by executing the following command:
+
 ## Static and Media Files
 
 - Static files are served from the `staticfiles/` directory and configured under `STATIC_URL` and `STATIC_ROOT`.
@@ -93,4 +127,91 @@ The project uses file-based caching configured under the `CACHES` setting. Ensur
 
 ---
 
-This setup documentation is based on the `settings.py` file and should be adjusted according to your specific deployment and development needs.
+
+## Unit Testing
+
+This project uses Django's built-in `TestCase` class for unit testing. Tests are organized by application within the project structure. Here's how to run and write tests for the project:
+
+### Running Tests
+
+To run all tests in the project, execute the following command from the root directory:
+
+```sh
+python manage.py test
+```
+
+To run tests for a specific application, specify the application name:
+
+```sh
+python manage.py test customer
+python manage.py test ecommerce
+```
+
+### Writing Tests
+
+Tests are defined in the `tests.py` file within each application directory. Each test case class should inherit from `django.test.TestCase`.
+
+#### Example Test Case
+
+Below is an example of a test case for the `Product` model in the `ecommerce` application:
+
+```python
+from django.test import TestCase
+from .models import Product
+
+class ProductTest(TestCase):
+    def setUp(self):
+        Product.objects.create(name="Test Product", price=10.00)
+
+    def test_product_creation(self):
+        product = Product.objects.get(name="Test Product")
+        self.assertEqual(product.price, 10.00)
+```
+
+This test case creates a [`Product`](ecommerce/models.py) instance in the [`setUp`](ecommerce/tests.py) method and then tests that the product was created with the correct price.
+
+### Best Practices
+
+- Group related tests into the same [`TestCase`](virtualenvs/ecommerce-shop-site-lesson-project-7M1L-YYh/Lib/site-packages/django/test/testcases.py) class.
+- Use the [`setUp`](ecommerce/tests.py) method to create common test data for each test method.
+- Use descriptive names for your test methods to clearly indicate what they test.
+
+For more information on testing in Django, refer to the [official Django testing documentation](https://docs.djangoproject.com/en/stable/topics/testing/).
+
+
+## Admin Panel
+The project's Django admin panel is configured through customizations in the [`admin.py`]("customer\admin.py") files located in the [`customer`](mmerce\lesson\customer") and [`ecommerce`](mmerce\lesson\ecommerce") applications. Below is a summary of these configurations:
+
+### Customer App Admin Configuration ([`customer/admin.py`]("customer\admin.py"))
+
+- **Models Registered Directly:**
+  - [`Customer`]("customer/models.py")
+  - [`Wish`]("customer/models.py")
+  - [`BascetItem`]("customer/models.py")
+  - [`Contact`]("customer/models.py")
+  - [`Purchase`]("customer/models.py")
+  - [`Coupon`]("customer/models.py")
+  - [`OrderCoupon`]("customer/models.py")
+  - [`PasswordReset`]("customer/models.py")
+  - [`BulkMail`]("customer/models.py")
+
+- **Custom Admin Classes:**
+  - [`OrderAdmin`]("customer/admin.py"): Configures the admin interface for the [`Order`]("customer/models.py") model. It uses two inline classes, [`OrderCouponInline`]("customer/admin.py") and [`PurchaseInline`]("customer/admin.py"), to display related [`OrderCoupon`]("customer/models.py") and [`Purchase`]("customer/models.py") instances within the same page as the [`Order`]("customer/models.py") instance.
+    - [`OrderCouponInline`](D "customer/admin.py"): Displays [`OrderCoupon`](D "customer/models.py") instances in a tabular inline format. It is set to not allow adding extra instances directly from the [`Order`](D "customer/models.py") admin page ([`extra = 0`](D "customer/admin.py")).
+    - [`PurchaseInline`](D "customer/admin.py"): Displays [`Purchase`](D "customer/models.py") instances in a stacked inline format, also without allowing extra instances to be added directly ([`extra = 0`](D "customer/admin.py")).
+
+### Ecommerce App Admin Configuration ([`ecommerce/admin.py`]("ecommerce\admin.py"))
+
+- **Models Registered Directly:**
+  - [`Size`]("ecommerce/models.py")
+  - [`Color`]("ecommerce/models.py")
+  - [`Category`]("ecommerce/models.py")
+  - [`Campaign`]("ecommerce/models.py")
+  - [`ProductImage`]("ecommerce/models.py")
+
+- **Custom Admin Classes:**
+  - [`ProductAdmin`]("ecommerce/admin.py"): Customizes the admin interface for the [`Product`]("ecommerce/models.py") model. It specifies [`readonly_fields`]("ecommerce/admin.py") to include `id`, `slug`, and `created`. It also includes two inline classes, [`ProductImageInline`]("ecommerce/admin.py") and [`ReviewInline`]("ecommerce/admin.py"), to display related [`ProductImage`]("ecommerce/models.py") and [`Review`]("ecommerce/models.py") instances within the same page as the [`Product`]("ecommerce/models.py") instance.
+    - [`ProductImageInline`]("ecommerce/admin.py"): Configures a tabular inline view for [`ProductImage`]("ecommerce/models.py") instances. It includes `image`, `image_tag`, and `order` fields, with `image_tag` being read-only. It allows adding one extra [`ProductImage`]("ecommerce/models.py") instance directly from the [`Product`]("ecommerce/models.py") admin page ([`extra = 1`]("customer/admin.py")).
+    - [`ReviewInline`]("ecommerce/admin.py"): The configuration for this inline class is not provided in the excerpt, but it is implied to be similar in purpose to [`ProductImageInline`]("ecommerce/admin.py"), allowing [`Review`]("ecommerce/models.py") instances to be managed directly from the [`Product`]("ecommerce/models.py") admin page.
+
+These configurations enhance the Django admin interface by allowing detailed management of related models directly from the admin pages of their parent models, improving the efficiency of administrative tasks.
