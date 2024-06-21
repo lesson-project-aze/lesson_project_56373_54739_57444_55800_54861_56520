@@ -8,9 +8,61 @@
 - Chingiz Gurbanov
 - Eljan Rustamov
 
-# Setup Documentation
+This Django project appears to encompass functionalities related to an e-commerce platform, with a focus on customer interactions and product management.
 
-This documentation outlines the setup process for the Django project configured in [`settings.py`](2%7D%5D"shop-site-lesson-project\shop\settings.py"). Follow these steps to configure your environment correctly.
+## Customer App
+
+#### Models
+- **Customer**: Represents a customer with fields derived from the [`User`](.virtualenvs/ecommerce-shop-site-lesson-project-7M1L-YYh/Lib/site-packages/django/contrib/auth/models.py) model and additional attributes specific to a customer.
+- **Wish**: A model to represent customer wishes or wishlists.
+- **BasketItem**: Items that are added to a customer's shopping basket.
+- **Coupon**: Represents discount coupons.
+- **Order**: Details of customer orders.
+- **OrderCoupon**: Association between orders and coupons.
+- **Purchase**: Represents completed purchases.
+- **Contact**: Stores contact information.
+- **PasswordReset**: For managing password reset requests.
+- **BulkMail**: Likely used for sending bulk emails to customers.
+
+#### Forms
+- **RegisterForm**: A form for user registration.
+- **ContactForm**: A form for contact information, based on the [`Contact`](customer/models.py) model.
+- **CheckoutForm**: A form used during the checkout process.
+- **ResetPasswordEmailForm**: For initiating a password reset via email.
+- **ResetPasswordForm**: For completing the password reset process.
+
+#### Views
+- **ContactView**: A class-based view for contact functionality.
+- **login_view**: Function-based view for handling login.
+- **logout_view**: Handles user logout.
+- **register**: Manages user registration.
+- **wishlist**: (Commented out) Would display a user's wishlist.
+
+## E-commerce App
+
+#### Models
+- **Size**, **Color**: Attributes for products.
+- **Category**: Product categorization.
+- **Campaign**: Represents marketing campaigns.
+- **Product**: Core model representing products.
+- **ProductImage**: Images associated with products.
+- **Review**: Customer reviews for products.
+
+#### Views
+- **home**: Displays the homepage with featured products, campaigns, and categories.
+- **ProductListView**: A class-based view for listing products with pagination.
+
+### General Functionality Overview
+
+- **Product Management**: The platform allows for the management of products, including details like size, color, and categories. Products can be featured in campaigns and have associated images and reviews.
+- **Customer Interaction**: Customers can register, login/logout, and contact the platform. There's functionality for managing wishlists, shopping baskets, and orders, including the application of coupons.
+- **Security**: The project includes mechanisms for password reset and uses Google's reCAPTCHA for form submissions to prevent spam.
+
+This documentation provides a high-level overview of the project's functionalities based on the provided code excerpts. For a more detailed understanding, one would need to review the full source code.
+
+## Setup
+
+This documentation outlines the setup process for the Django project configured in [`settings.py`](2%7D%5D"shop-site-lesson-project\shop\settings.py). Follow these steps to configure your environment correctly.
 
 ## Prerequisites
 
@@ -164,7 +216,7 @@ class ProductTest(TestCase):
         Product.objects.create(name="Test Product", price=10.00)
 
     def test_product_creation(self):
-        product = Product.objects.get(name="Test Product")
+        product = Product.objects.get(name="Test Product)
         self.assertEqual(product.price, 10.00)
 ```
 
@@ -180,38 +232,38 @@ For more information on testing in Django, refer to the [official Django testing
 
 
 ## Admin Panel
-The project's Django admin panel is configured through customizations in the [`admin.py`]("customer\admin.py") files located in the [`customer`](mmerce\lesson\customer") and [`ecommerce`](mmerce\lesson\ecommerce") applications. Below is a summary of these configurations:
+The project's Django admin panel is configured through customizations in the [`admin.py`]("customer\admin.py) files located in the [`customer`](mmerce\lesson\customer) and [`ecommerce`](mmerce\lesson\ecommerce) applications. Below is a summary of these configurations:
 
-### Customer App Admin Configuration ([`customer/admin.py`]("customer\admin.py"))
-
-- **Models Registered Directly:**
-  - [`Customer`]("customer/models.py")
-  - [`Wish`]("customer/models.py")
-  - [`BascetItem`]("customer/models.py")
-  - [`Contact`]("customer/models.py")
-  - [`Purchase`]("customer/models.py")
-  - [`Coupon`]("customer/models.py")
-  - [`OrderCoupon`]("customer/models.py")
-  - [`PasswordReset`]("customer/models.py")
-  - [`BulkMail`]("customer/models.py")
-
-- **Custom Admin Classes:**
-  - [`OrderAdmin`]("customer/admin.py"): Configures the admin interface for the [`Order`]("customer/models.py") model. It uses two inline classes, [`OrderCouponInline`]("customer/admin.py") and [`PurchaseInline`]("customer/admin.py"), to display related [`OrderCoupon`]("customer/models.py") and [`Purchase`]("customer/models.py") instances within the same page as the [`Order`]("customer/models.py") instance.
-    - [`OrderCouponInline`](D "customer/admin.py"): Displays [`OrderCoupon`](D "customer/models.py") instances in a tabular inline format. It is set to not allow adding extra instances directly from the [`Order`](D "customer/models.py") admin page ([`extra = 0`](D "customer/admin.py")).
-    - [`PurchaseInline`](D "customer/admin.py"): Displays [`Purchase`](D "customer/models.py") instances in a stacked inline format, also without allowing extra instances to be added directly ([`extra = 0`](D "customer/admin.py")).
-
-### Ecommerce App Admin Configuration ([`ecommerce/admin.py`]("ecommerce\admin.py"))
+### Customer App Admin Configuration ([`customer/admin.py`]("customer\admin.py))
 
 - **Models Registered Directly:**
-  - [`Size`]("ecommerce/models.py")
-  - [`Color`]("ecommerce/models.py")
-  - [`Category`]("ecommerce/models.py")
-  - [`Campaign`]("ecommerce/models.py")
-  - [`ProductImage`]("ecommerce/models.py")
+  - [`Customer`]("customer/models.py)
+  - [`Wish`]("customer/models.py)
+  - [`BascetItem`]("customer/models.py)
+  - [`Contact`]("customer/models.py)
+  - [`Purchase`]("customer/models.py)
+  - [`Coupon`]("customer/models.py)
+  - [`OrderCoupon`]("customer/models.py)
+  - [`PasswordReset`]("customer/models.py)
+  - [`BulkMail`]("customer/models.py)
 
 - **Custom Admin Classes:**
-  - [`ProductAdmin`]("ecommerce/admin.py"): Customizes the admin interface for the [`Product`]("ecommerce/models.py") model. It specifies [`readonly_fields`]("ecommerce/admin.py") to include `id`, `slug`, and `created`. It also includes two inline classes, [`ProductImageInline`]("ecommerce/admin.py") and [`ReviewInline`]("ecommerce/admin.py"), to display related [`ProductImage`]("ecommerce/models.py") and [`Review`]("ecommerce/models.py") instances within the same page as the [`Product`]("ecommerce/models.py") instance.
-    - [`ProductImageInline`]("ecommerce/admin.py"): Configures a tabular inline view for [`ProductImage`]("ecommerce/models.py") instances. It includes `image`, `image_tag`, and `order` fields, with `image_tag` being read-only. It allows adding one extra [`ProductImage`]("ecommerce/models.py") instance directly from the [`Product`]("ecommerce/models.py") admin page ([`extra = 1`]("customer/admin.py")).
-    - [`ReviewInline`]("ecommerce/admin.py"): The configuration for this inline class is not provided in the excerpt, but it is implied to be similar in purpose to [`ProductImageInline`]("ecommerce/admin.py"), allowing [`Review`]("ecommerce/models.py") instances to be managed directly from the [`Product`]("ecommerce/models.py") admin page.
+  - [`OrderAdmin`]("customer/admin.py): Configures the admin interface for the [`Order`]("customer/models.py) model. It uses two inline classes, [`OrderCouponInline`]("customer/admin.py) and [`PurchaseInline`]("customer/admin.py), to display related [`OrderCoupon`]("customer/models.py) and [`Purchase`]("customer/models.py) instances within the same page as the [`Order`]("customer/models.py) instance.
+    - [`OrderCouponInline`](D "customer/admin.py): Displays [`OrderCoupon`](D "customer/models.py) instances in a tabular inline format. It is set to not allow adding extra instances directly from the [`Order`](D "customer/models.py) admin page ([`extra = 0`](D "customer/admin.py)).
+    - [`PurchaseInline`](D "customer/admin.py): Displays [`Purchase`](D "customer/models.py) instances in a stacked inline format, also without allowing extra instances to be added directly ([`extra = 0`](D "customer/admin.py)).
+
+### Ecommerce App Admin Configuration ([`ecommerce/admin.py`]("ecommerce\admin.py))
+
+- **Models Registered Directly:**
+  - [`Size`]("ecommerce/models.py)
+  - [`Color`]("ecommerce/models.py)
+  - [`Category`]("ecommerce/models.py)
+  - [`Campaign`]("ecommerce/models.py)
+  - [`ProductImage`]("ecommerce/models.py)
+
+- **Custom Admin Classes:**
+  - [`ProductAdmin`]("ecommerce/admin.py): Customizes the admin interface for the [`Product`]("ecommerce/models.py) model. It specifies [`readonly_fields`]("ecommerce/admin.py) to include `id`, `slug`, and `created`. It also includes two inline classes, [`ProductImageInline`]("ecommerce/admin.py) and [`ReviewInline`]("ecommerce/admin.py), to display related [`ProductImage`]("ecommerce/models.py) and [`Review`]("ecommerce/models.py) instances within the same page as the [`Product`]("ecommerce/models.py) instance.
+    - [`ProductImageInline`]("ecommerce/admin.py): Configures a tabular inline view for [`ProductImage`]("ecommerce/models.py) instances. It includes `image`, `image_tag`, and `order` fields, with `image_tag` being read-only. It allows adding one extra [`ProductImage`]("ecommerce/models.py) instance directly from the [`Product`]("ecommerce/models.py) admin page ([`extra = 1`]("customer/admin.py)).
+    - [`ReviewInline`]("ecommerce/admin.py): The configuration for this inline class is not provided in the excerpt, but it is implied to be similar in purpose to [`ProductImageInline`]("ecommerce/admin.py), allowing [`Review`]("ecommerce/models.py) instances to be managed directly from the [`Product`]("ecommerce/models.py) admin page.
 
 These configurations enhance the Django admin interface by allowing detailed management of related models directly from the admin pages of their parent models, improving the efficiency of administrative tasks.
